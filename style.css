@@ -22,7 +22,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid #6c7758; outline-offs
   display: grid;
   grid-template-columns: calc(330 * var(--layout-unit)) minmax(0, 1fr);
   max-width: 1160px;
-  height: 100dvh;
+  /* Halfway between the compact 600-unit layout and the full viewport. */
+  height: min(100dvh, calc(50dvh + 300 * var(--layout-unit)));
   margin: 0 auto;
 }
 .sidebar {
