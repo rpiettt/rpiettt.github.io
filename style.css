@@ -105,6 +105,7 @@ blockquote { margin: 0 0 calc(14 * var(--sidebar-unit)); font: italic calc(10 * 
   }
   /* Scale both columns together without stretching the gaps on tall phones. */
   .site-layout { height: calc(740 * var(--layout-unit)); }
+  .life { margin-top: calc(32 * var(--sidebar-unit)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .ring-target { transition: none; }
