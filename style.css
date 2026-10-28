@@ -22,7 +22,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid #6c7758; outline-offs
   display: grid;
   grid-template-columns: calc(330 * var(--layout-unit)) minmax(0, 1fr);
   max-width: 1160px;
-  height: min(100dvh, calc(600 * var(--layout-unit)));
+  height: 100dvh;
   margin: 0 auto;
 }
 .sidebar {
@@ -43,8 +43,8 @@ h2 { font: normal calc(10 * var(--sidebar-unit))/1.55 Georgia, serif; letter-spa
 blockquote { margin: 0 0 calc(14 * var(--sidebar-unit)); font: italic calc(10 * var(--sidebar-unit))/1.55 Georgia, serif; }
 /* Keep the credit within the poem without changing its width. */
 .attribution { contain: inline-size; white-space: normal; font-size: calc(6.5 * var(--sidebar-unit)); line-height: 1.6; margin: 0; text-align: right; }
-.life-diagram { margin: calc(20 * var(--sidebar-unit)) 0 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
-.sidebar-footer { margin-top: auto; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
+.life-diagram { display: flex; flex: 1; align-items: center; margin: 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
+.sidebar-footer { margin-top: 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
 .location-note { margin: 0; font-size: calc(7 * var(--sidebar-unit)); line-height: 1.15; }
 .location-note p { margin: 0; }
 .location-note .other-cities { margin-top: calc(1 * var(--sidebar-unit)); color: #777; }
