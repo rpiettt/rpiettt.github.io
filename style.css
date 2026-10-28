@@ -98,6 +98,13 @@ blockquote { margin: 0 0 calc(14 * var(--sidebar-unit)); font: italic calc(10 * 
 @media (max-height: 680px) {
   .profile-list { line-height: 1.2; }
 }
+@media (max-width: 600px) {
+  :root {
+    --layout-unit: min(1px, calc(100vw / 740), calc(100svh / 740));
+  }
+  /* Scale both columns together without stretching the gaps on tall phones. */
+  .site-layout { height: calc(740 * var(--layout-unit)); }
+}
 @media (prefers-reduced-motion: reduce) {
   .ring-target { transition: none; }
 }
