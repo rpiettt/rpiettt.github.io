@@ -43,10 +43,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid #6c7758; outline-offs
 h2 { font: normal calc(10 * var(--sidebar-unit))/1.55 Georgia, serif; letter-spacing: calc(-.4 * var(--sidebar-unit)); margin: 0 0 calc(14 * var(--sidebar-unit)); }
 blockquote { margin: 0 0 calc(14 * var(--sidebar-unit)); font: italic calc(10 * var(--sidebar-unit))/1.55 Georgia, serif; }
 /* Keep the credit within the poem without changing its width. */
-.attribution { contain: inline-size; white-space: normal; font-size: calc(6.5 * var(--sidebar-unit)); line-height: 1.6; margin: 0; text-align: right; }
+.attribution { contain: inline-size; white-space: normal; font-size: calc(8 * var(--sidebar-unit)); line-height: 1.6; margin: 0; text-align: right; }
 .life-diagram { display: flex; flex: 1; align-items: center; margin: 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
 .sidebar-footer { margin-top: 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
-.location-note { margin: 0; font-size: calc(7 * var(--sidebar-unit)); line-height: 1.15; }
+.location-note { margin: 0; font-size: calc(8 * var(--sidebar-unit)); line-height: 1.15; }
 .location-note p { margin: 0; }
 .location-note .other-cities { margin-top: calc(1 * var(--sidebar-unit)); color: #777; }
 .circles { position: relative; width: 82.5%; margin-inline: auto; }
@@ -90,11 +90,14 @@ blockquote { margin: 0 0 calc(14 * var(--sidebar-unit)); font: italic calc(10 * 
 .profile-group p { margin: 0; }
 .passion-projects p { line-height: 1.25; }
 .passion-projects p + p { margin-top: calc(4 * var(--layout-unit)); }
-.profile-list { list-style: none; padding: 0; margin: 0; line-height: 1.15; }
+.profile-list { list-style: none; padding: 0; margin: 0; line-height: 1.35; }
 .profile-list li + li { margin-top: 0; }
 .profile-list .list-detail { color: #999; }
 .writers-list { columns: 2; column-gap: calc(20 * var(--layout-unit)); max-width: calc(280 * var(--layout-unit)); }
 .writers-list li { break-inside: avoid; }
+@media (max-height: 680px) {
+  .profile-list { line-height: 1.2; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ring-target { transition: none; }
 }
