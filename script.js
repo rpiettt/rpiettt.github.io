@@ -104,3 +104,18 @@ function matchPoemWidth() {
 }
 matchPoemWidth();
 new ResizeObserver(matchPoemWidth).observe(poemText);
+
+// Soften crowded rings at small sizes while keeping their hit areas sharp.
+function smoothSmallRings() {
+ const width = grid.getBoundingClientRect().width;
+ if (!width) return;
+ // Include zooming out on low-density screens and pinch zooming on phones.
+ const zoom = Math.min(1, window.devicePixelRatio || 1) * (window.visualViewport?.scale || 1);
+ const displayedWidth = width * zoom;
+ const blur = Math.max(0, Math.min(.6, (190 - displayedWidth) / 140));
+ grid.style.setProperty('--ring-smoothing', blur ? `blur(${blur * 377 / displayedWidth}px)` : 'none');
+}
+smoothSmallRings();
+new ResizeObserver(smoothSmallRings).observe(grid);
+window.addEventListener('resize', smoothSmallRings);
+window.visualViewport?.addEventListener('resize', smoothSmallRings);
