@@ -5,6 +5,46 @@ const grid = document.querySelector('#circles');
 const dateFormatter = new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York',year:'numeric',month:'numeric',day:'numeric'});
 let renderedDay = null;
 let selected = null;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const entranceAnimations = new Set();
+let entrancePlayed = false;
+
+function finishRingEntrance() {
+ // Cancelling removes only the decorative transform; the final diagram is underneath.
+ for (const animation of entranceAnimations) animation.cancel();
+ entranceAnimations.clear();
+}
+
+function revealRings(svg) {
+ if (entrancePlayed) return;
+ entrancePlayed = true;
+ if (reducedMotion.matches || document.hidden || !Element.prototype.animate) return;
+ svg.querySelectorAll('.ring-visual').forEach((visual, index) => {
+  const animation = visual.animate([
+   {transform:'scale(.35)', opacity:0},
+   {opacity:1, offset:.4},
+   {transform:'scale(1)', opacity:1}
+  ], {
+   duration:6500,
+   delay:180 + index * 46,
+   easing:'cubic-bezier(.22, 1, .36, 1)',
+   fill:'backwards'
+  });
+  entranceAnimations.add(animation);
+  animation.finished.then(() => {
+   animation.cancel();
+   entranceAnimations.delete(animation);
+  }, () => entranceAnimations.delete(animation));
+ });
+}
+
+// Exploration takes priority over the entrance; it never replays on resize or return.
+grid.addEventListener('pointerenter', finishRingEntrance);
+grid.addEventListener('pointerdown', finishRingEntrance);
+grid.addEventListener('focusin', finishRingEntrance);
+reducedMotion.addEventListener('change', event => {
+ if (event.matches) finishRingEntrance();
+});
 
 function ringRadius(year) {
  return 11+(year-1)*2.45;
@@ -15,6 +55,7 @@ const todayParts = dateFormatter.formatToParts(new Date());
 const datePart = name => Number(todayParts.find(p => p.type === name).value);
 const today = Date.UTC(datePart('year'), datePart('month')-1, datePart('day'));
 if (today === renderedDay) return;
+finishRingEntrance();
 const focusedYear = grid.contains(document.activeElement) ? document.activeElement.dataset.year : null;
 let age = datePart('year') - 1994;
 if (today < Date.UTC(datePart('year'),3,11)) age--;
@@ -44,15 +85,17 @@ function hideTooltip(){tooltip.hidden=true;}
 for(let year=1;year<=YEARS;year++){
  const radius=ringRadius(year);
  const group=svgElement('g',{'data-year':year,role:'button',tabindex:year===(focusedYear ? Number(focusedYear) : Math.min(YEARS, age+1))?'0':'-1','aria-label':describe(year),'aria-pressed':String(year===selected)});
+ const visual=svgElement('g',{class:'ring-visual','aria-hidden':'true'});
  const futureOpacity=Math.max(.14,.38-(year-age-1)/Math.max(1,YEARS-age-1)*.24);
  // Every completed year has the same weight; only future years fade outward.
  const guideOpacity = year<=age ? 1 : futureOpacity;
  const ringStyle={cx:200,cy:200,r:radius,fill:'none',stroke:'#000','stroke-width':.45,'pointer-events':'none'};
- group.append(svgElement('circle',{...ringStyle,opacity:guideOpacity,class:'ring-track'}));
+ visual.append(svgElement('circle',{...ringStyle,opacity:guideOpacity,class:'ring-track'}));
  if(year===age+1 && completeWeeks>0){
   // A single continuous arc advances by 1/52 of the circumference per completed increment.
-  group.append(svgElement('circle',{...ringStyle,pathLength:WEEKS,'stroke-dasharray':`${completeWeeks} ${WEEKS-completeWeeks}`,'stroke-linecap':'butt',transform:'rotate(-90 200 200)',class:'ring-progress'}));
+  visual.append(svgElement('circle',{...ringStyle,pathLength:WEEKS,'stroke-dasharray':`${completeWeeks} ${WEEKS-completeWeeks}`,'stroke-linecap':'butt',transform:'rotate(-90 200 200)',class:'ring-progress'}));
  }
+ group.append(visual);
  // Hit areas meet halfway between neighboring rings.
  const inner=year===1 ? radius-1.225 : (ringRadius(year-1)+radius)/2;
  const outer=year===YEARS ? radius+1.225 : (radius+ringRadius(year+1))/2;
@@ -85,6 +128,7 @@ function clear(){selected=null;svg.querySelectorAll('[data-year]').forEach(el=>e
 grid.replaceChildren(svg,tooltip);
 renderedDay = today;
 if (focusedYear) svg.querySelector(`[data-year="${focusedYear}"]`)?.focus({preventScroll:true});
+revealRings(svg);
 }
 
 updateDiagram();
@@ -92,6 +136,7 @@ updateDiagram();
 setInterval(updateDiagram, 60_000);
 document.addEventListener('visibilitychange', () => {
  if (document.visibilityState === 'visible') updateDiagram();
+ else finishRingEntrance();
 });
 window.addEventListener('focus', updateDiagram);
 window.addEventListener('pageshow', updateDiagram);
