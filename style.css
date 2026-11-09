@@ -44,15 +44,14 @@ h2 { font: normal calc(10 * var(--sidebar-unit))/1.55 Georgia, serif; letter-spa
 blockquote { margin: 0 0 calc(14 * var(--sidebar-unit)); font: italic calc(10 * var(--sidebar-unit))/1.55 Georgia, serif; }
 /* Keep the credit within the poem without changing its width. */
 .attribution { contain: inline-size; white-space: normal; font-size: calc(8 * var(--sidebar-unit)); line-height: 1.6; margin: 0; text-align: right; }
-.life-diagram { display: flex; flex: 1; align-items: center; margin: 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
+.life-diagram { display: flex; flex: 1; align-items: center; margin: 0; width: 100%; max-width: 100%; }
 .sidebar-footer { margin-top: 0; width: var(--poem-width, calc(240 * var(--sidebar-unit))); max-width: 100%; }
 .location-note { margin: 0; font-size: calc(8 * var(--sidebar-unit)); line-height: 1.15; }
 .location-note p { margin: 0; }
 .location-note .other-cities { margin-top: calc(1 * var(--sidebar-unit)); color: #777; }
-.circles { position: relative; width: 90%; margin-inline: auto; }
+.circles { position: relative; width: 100%; margin-inline: auto; }
 .circles svg { position: relative; display: block; width: 100%; height: auto; overflow: visible; }
 .circles g { cursor: pointer; outline: none; }
-.ring-visual { transform-box: view-box; transform-origin: 50% 50%; pointer-events: none; }
 .ring-track, .ring-progress { filter: var(--ring-smoothing, none); }
 .ring-tooltip { position: fixed; z-index: 10; pointer-events: none; padding: 3px 6px; border: 1px solid #d8d8d2; border-radius: 2px; background: var(--paper); color: var(--ink); font: 11px/1.3 Arial, Helvetica, sans-serif; white-space: nowrap; }
 .ring-target { transition: stroke .15s; }
