@@ -96,7 +96,7 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('focus', updateDiagram);
 window.addEventListener('pageshow', updateDiagram);
 
-// Keep the footer aligned with the poem after resizing.
+// Keep the diagram and footer aligned with the poem after resizing.
 const poemText = document.querySelector('blockquote');
 const sidebar = document.querySelector('.sidebar');
 function matchPoemWidth() {
